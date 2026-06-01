@@ -1,0 +1,31 @@
+<view class="timer-container">
+  <!-- 圆形进度条 -->
+  <view class="timer-circle">
+    <view class="circle-bg"></view>
+    <view class="circle-progress" style="--progress: {{progress}}"></view>
+    <view class="timer-inner">
+      <text class="timer-time">{{displayTime}}</text>
+      <text class="timer-label">{{isRunning ? '专注中' : '准备开始'}}</text>
+    </view>
+  </view>
+
+  <!-- 模式切换 -->
+  <view class="mode-switch">
+    <view
+      class="mode-item {{mode === 'focus' ? 'active' : ''}}"
+      bindtap="switchMode"
+      data-mode="focus"
+    >
+      <text>专注</text>
+      <text class="mode-duration">{{focusMinutes}}分钟</text>
+    </view>
+    <view
+      class="mode-item {{mode === 'break' ? 'active' : ''}}"
+      bindtap="switchMode"
+      data-mode="break"
+    >
+      <text>休息</text>
+      <text class="mode-duration">{{breakMinutes}}分钟</text>
+    </view>
+  </view>
+</view>

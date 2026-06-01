@@ -1,0 +1,109 @@
+.attention-container {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+/* 状态指示器 */
+.status-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30rpx;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 16rpx 32rpx;
+  border-radius: 40rpx;
+  transition: all 0.3s ease;
+}
+
+.status-badge.focus {
+  background: #E8F5E9;
+}
+
+.status-badge.look_away,
+.status-badge.head_down {
+  background: #FFF3E0;
+}
+
+.status-badge.face_lost,
+.status-badge.eye_close {
+  background: #FFEBEE;
+}
+
+.status-icon {
+  font-size: 40rpx;
+}
+
+.status-text {
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.status-badge.focus .status-text {
+  color: #27AE60;
+}
+
+.status-badge.look_away .status-text,
+.status-badge.head_down .status-text {
+  color: #F39C12;
+}
+
+.status-badge.face_lost .status-text,
+.status-badge.eye_close .status-text {
+  color: #E74C3C;
+}
+
+/* 数据面板 */
+.data-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40rpx;
+  margin-bottom: 24rpx;
+}
+
+.data-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.data-value {
+  font-size: 48rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.data-label {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.data-divider {
+  width: 2rpx;
+  height: 60rpx;
+  background: #eee;
+}
+
+/* 效率条 */
+.efficiency-bar {
+  width: 100%;
+  height: 12rpx;
+  background: #f0f0f0;
+  border-radius: 6rpx;
+  overflow: hidden;
+}
+
+.efficiency-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #27AE60 0%, #2ECC71 100%);
+  border-radius: 6rpx;
+  transition: width 0.5s ease;
+}

@@ -1,0 +1,279 @@
+.container {
+  padding: 30rpx;
+  padding-bottom: 200rpx;
+}
+
+/* 头部 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.header-title {
+  display: flex;
+  align-items: baseline;
+  gap: 16rpx;
+}
+
+.header-title text:first-child {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.header-count {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.btn-add {
+  padding: 12rpx 24rpx;
+  background: #4A90D9;
+  color: #fff;
+  font-size: 26rpx;
+  border-radius: 8rpx;
+  border: none;
+  line-height: 1.5;
+}
+
+/* 计划列表 */
+.plan-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.plan-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.plan-card.completed {
+  opacity: 0.7;
+}
+
+.plan-header {
+  margin-bottom: 20rpx;
+}
+
+.plan-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.plan-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.plan-status {
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+  font-size: 22rpx;
+}
+
+.plan-status.pending {
+  background: #f0f0f0;
+  color: #999;
+}
+
+.plan-status.in_progress {
+  background: #E3F2FD;
+  color: #1976D2;
+}
+
+.plan-status.completed {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.plan-duration {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 进度条 */
+.plan-progress {
+  margin-bottom: 20rpx;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 12rpx;
+  background: #f0f0f0;
+  border-radius: 6rpx;
+  overflow: hidden;
+  margin-bottom: 8rpx;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4A90D9 0%, #64B5F6 100%);
+  border-radius: 6rpx;
+  transition: width 0.5s ease;
+}
+
+.progress-text {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 操作按钮 */
+.plan-actions {
+  display: flex;
+  gap: 16rpx;
+}
+
+.btn-action {
+  flex: 1;
+  padding: 12rpx 0;
+  font-size: 26rpx;
+  border-radius: 8rpx;
+  border: none;
+  background: #E3F2FD;
+  color: #1976D2;
+}
+
+.btn-action.btn-edit {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.btn-action.btn-delete {
+  background: #FFEBEE;
+  color: #D32F2F;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100rpx 0;
+  gap: 20rpx;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: #666;
+}
+
+.empty-hint {
+  font-size: 26rpx;
+  color: #999;
+}
+
+/* 弹窗 */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.modal {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  padding: 30rpx;
+  z-index: 101;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.modal.show {
+  transform: translateY(0);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.modal-header text:first-child {
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.modal-close {
+  font-size: 40rpx;
+  color: #999;
+  padding: 10rpx;
+}
+
+/* 表单 */
+.form-group {
+  margin-bottom: 24rpx;
+}
+
+.form-label {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 12rpx;
+}
+
+.form-input {
+  width: 100%;
+  height: 80rpx;
+  padding: 0 20rpx;
+  background: #f5f5f5;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+/* 快捷选项 */
+.quick-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.quick-item {
+  padding: 12rpx 24rpx;
+  background: #f0f0f0;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.quick-item.active {
+  background: #E3F2FD;
+  color: #1976D2;
+}
+
+/* 提交按钮 */
+.btn-submit {
+  width: 100%;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #4A90D9;
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 600;
+  border-radius: 12rpx;
+  border: none;
+  margin-top: 30rpx;
+}

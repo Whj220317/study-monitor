@@ -1,0 +1,12 @@
+{
+  "name": "detectFace",
+  "version": "1.0.0",
+  "description": "人脸检测云函数",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3",
+    "tencentcloud-sdk-nodejs": "^4.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,33 @@
+<view class="attention-container">
+  <!-- 状态指示器 -->
+  <view class="status-section">
+    <view class="status-badge {{status}}">
+      <view class="status-icon">
+        <text wx:if="{{status === 'focus'}}">👁</text>
+        <text wx:elif="{{status === 'look_away'}}">👀</text>
+        <text wx:elif="{{status === 'head_down'}}">⬇️</text>
+        <text wx:elif="{{status === 'face_lost'}}">🚪</text>
+        <text wx:elif="{{status === 'eye_close'}}">😴</text>
+      </view>
+      <text class="status-text">{{statusText}}</text>
+    </view>
+  </view>
+
+  <!-- 数据面板 -->
+  <view class="data-panel">
+    <view class="data-item">
+      <text class="data-value">{{distractionCount}}</text>
+      <text class="data-label">分心次数</text>
+    </view>
+    <view class="data-divider"></view>
+    <view class="data-item">
+      <text class="data-value">{{efficiency}}%</text>
+      <text class="data-label">专注度</text>
+    </view>
+  </view>
+
+  <!-- 效率条 -->
+  <view class="efficiency-bar">
+    <view class="efficiency-fill" style="width: {{efficiency}}%"></view>
+  </view>
+</view>

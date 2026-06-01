@@ -1,0 +1,9 @@
+{
+  "name": "studyAgent",
+  "version": "2.0.0",
+  "description": "学习监督 Agent - 调用 DeepSeek V4 分析姿势数据，提供个性化学习建议和方法推荐",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

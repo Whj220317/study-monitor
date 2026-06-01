@@ -1,0 +1,121 @@
+<view class="container">
+  <!-- 状态栏 -->
+  <view class="status-bar">
+    <view class="status-indicator {{isRunning ? 'active' : ''}}">
+      <view class="status-dot"></view>
+      <text>{{isRunning ? '学习中' : '未开始'}}</text>
+    </view>
+    <view class="plan-selector" bindtap="showPlanPicker">
+      <text>{{currentPlan ? currentPlan.title : '选择学习计划'}}</text>
+      <text class="arrow">></text>
+    </view>
+  </view>
+
+  <!-- 计时器区域 -->
+  <view class="timer-section">
+    <timer
+      id="timer"
+      duration="{{focusDuration}}"
+      isRunning="{{isRunning}}"
+      bind:ontick="onTimerTick"
+      bind:oncomplete="onTimerComplete"
+    />
+  </view>
+
+  <!-- 注意力状态 -->
+  <attention-status
+    status="{{attentionStatus}}"
+    distractionCount="{{distractionCount}}"
+    efficiency="{{efficiency}}"
+  />
+
+  <!-- 检测状态（FaceDetectContext 自带摄像头访问，不需要 <camera> 标签）-->
+  <view class="camera-section" wx:if="{{isRunning}}">
+    <view class="camera-placeholder">
+      <text class="placeholder-title">{{isSimulator ? '📱 模拟器模式' : '📷 前置摄像头检测中'}}</text>
+      <text class="placeholder-desc" wx:if="{{!isSimulator}}">
+        转头 · 低头 · 眨眼 · 瞌睡 · 哈欠
+      </text>
+    </view>
+    <view class="camera-overlay">
+      <view class="camera-indicator {{attentionStatus}}">
+        <text>{{statusText}}</text>
+      </view>
+      <view class="diag-info" wx:if="{{diagMode}}">
+        <text class="diag-text">API: {{diagApi}}</text>
+        <text class="diag-text">yaw:{{diagYaw}}° pitch:{{diagPitch}}°</text>
+        <text class="diag-text" wx:if="{{diagEye >= 0}}">眼:{{diagEye}}%</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 控制按钮 -->
+  <view class="controls">
+    <button
+      class="btn-start {{isRunning ? 'running' : ''}}"
+      bindtap="toggleStudy"
+    >
+      {{isRunning ? '暂停学习' : '开始学习'}}
+    </button>
+    <button
+      class="btn-reset"
+      bindtap="resetStudy"
+      disabled="{{!hasRecord}}"
+    >
+      结束本次
+    </button>
+  </view>
+
+  <!-- 今日统计 -->
+  <view class="today-stats card">
+    <view class="section-title">今日统计</view>
+    <view class="stats-grid">
+      <view class="stat-item">
+        <text class="stat-value">{{todayDuration}}</text>
+        <text class="stat-label">学习时长</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{todaySessions}}</text>
+        <text class="stat-label">完成次数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{todayEfficiency}}%</text>
+        <text class="stat-label">平均效率</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 建议卡片 -->
+  <view class="advice-card card" wx:if="{{advice}}">
+    <view class="advice-icon">💡</view>
+    <view class="advice-content">
+      <text class="advice-title">{{advice.title}}</text>
+      <text class="advice-text">{{advice.content}}</text>
+    </view>
+  </view>
+
+  <!-- 计划选择弹窗 -->
+  <view class="plan-picker-mask" wx:if="{{showPicker}}" bindtap="hidePlanPicker"></view>
+  <view class="plan-picker {{showPicker ? 'show' : ''}}">
+    <view class="picker-header">
+      <text>选择学习计划</text>
+      <text bindtap="hidePlanPicker">关闭</text>
+    </view>
+    <scroll-view scroll-y class="picker-list">
+      <view
+        class="picker-item {{currentPlan && currentPlan.id === item.id ? 'selected' : ''}}"
+        wx:for="{{plans}}"
+        wx:key="id"
+        bindtap="selectPlan"
+        data-plan="{{item}}"
+      >
+        <text class="picker-item-title">{{item.title}}</text>
+        <text class="picker-item-duration">{{item.targetText}}</text>
+      </view>
+      <view class="picker-empty" wx:if="{{plans.length === 0}}">
+        <text>暂无学习计划</text>
+        <navigator url="/pages/plan/plan" class="link">去创建</navigator>
+      </view>
+    </scroll-view>
+  </view>
+</view>

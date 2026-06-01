@@ -1,0 +1,56 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/plan/plan",
+    "pages/report/report",
+    "pages/settings/settings"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#4A90D9",
+    "navigationBarTitleText": "学习监督",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F5F5F5"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#4A90D9",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "学习",
+        "iconPath": "assets/icons/study.png",
+        "selectedIconPath": "assets/icons/study-active.png"
+      },
+      {
+        "pagePath": "pages/plan/plan",
+        "text": "计划",
+        "iconPath": "assets/icons/plan.png",
+        "selectedIconPath": "assets/icons/plan-active.png"
+      },
+      {
+        "pagePath": "pages/report/report",
+        "text": "报告",
+        "iconPath": "assets/icons/report.png",
+        "selectedIconPath": "assets/icons/report-active.png"
+      },
+      {
+        "pagePath": "pages/settings/settings",
+        "text": "设置",
+        "iconPath": "assets/icons/settings.png",
+        "selectedIconPath": "assets/icons/settings-active.png"
+      }
+    ]
+  },
+  "permission": {
+    "scope.camera": {
+      "desc": "需要摄像头权限以检测学习状态"
+    }
+  },
+  "requiredBackgroundModes": ["audio"],
+  "sitemapLocation": "sitemap.json",
+  "cloud": true,
+  "style": "v2"
+}

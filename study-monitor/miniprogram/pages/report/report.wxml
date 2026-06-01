@@ -1,0 +1,173 @@
+<view class="container">
+  <!-- 日期选择 -->
+  <view class="date-selector">
+    <view class="date-nav" bindtap="prevWeek">
+      <text>◀</text>
+    </view>
+    <view class="date-range">
+      <text>{{dateRangeText}}</text>
+    </view>
+    <view class="date-nav" bindtap="nextWeek">
+      <text>▶</text>
+    </view>
+    <view class="date-today" bindtap="goToday">
+      <text>今天</text>
+    </view>
+  </view>
+
+  <!-- 周统计卡片 -->
+  <view class="summary-card card">
+    <view class="summary-title">本周概览</view>
+    <view class="summary-grid">
+      <view class="summary-item">
+        <text class="summary-value">{{weekStats.totalHours}}</text>
+        <text class="summary-label">学习时长(小时)</text>
+      </view>
+      <view class="summary-item">
+        <text class="summary-value">{{weekStats.sessionCount}}</text>
+        <text class="summary-label">学习次数</text>
+      </view>
+      <view class="summary-item">
+        <text class="summary-value">{{weekStats.avgEfficiency}}%</text>
+        <text class="summary-label">平均效率</text>
+      </view>
+      <view class="summary-item">
+        <text class="summary-value">{{weekStats.distractionCount}}</text>
+        <text class="summary-label">分心次数</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 每日学习时长图表 -->
+  <view class="chart-card card">
+    <view class="chart-title">每日学习时长</view>
+    <view class="chart-container" wx:if="{{weekData.length > 0}}">
+      <view class="bar-chart">
+        <view class="bar-item" wx:for="{{weekData}}" wx:key="date">
+          <view class="bar-wrapper">
+            <view
+              class="bar-fill {{item.hasData ? '' : 'bar-empty'}}"
+              style="height: {{item.barHeight}}%"
+            ></view>
+          </view>
+          <text class="bar-label">{{item.dayLabel}}</text>
+          <text class="bar-value {{item.hasData ? '' : 'text-muted'}}">{{item.hoursText}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="no-data" wx:else>
+      <text>暂无学习记录</text>
+    </view>
+  </view>
+
+  <!-- 效率趋势（真实连线折线图）-->
+  <view class="chart-card card">
+    <view class="chart-title">效率趋势</view>
+    <view class="chart-container" wx:if="{{weekData.length > 0}}">
+      <view class="line-chart">
+        <!-- 网格线 -->
+        <view class="grid-lines">
+          <view class="grid-line" style="bottom: 25%"></view>
+          <view class="grid-line" style="bottom: 50%"></view>
+          <view class="grid-line" style="bottom: 75%"></view>
+        </view>
+        <!-- 连线 -->
+        <view
+          wx:for="{{efficiencyConnectors}}"
+          wx:key="fromIndex"
+          class="line-connector {{item.trend}}"
+          style="left: {{item.fromLeft}}%; bottom: {{item.fromBottom}}%; width: {{item.length}}%; transform: rotate({{item.angle}}deg)"
+        ></view>
+        <!-- 数据点 -->
+        <view class="line-dots">
+          <view
+            wx:for="{{weekData}}"
+            wx:key="date"
+            wx:if="{{item.hasEfficiency}}"
+            class="line-dot-wrapper"
+            style="left: {{item.dotLeft}}%; bottom: {{item.efficiency}}%"
+          >
+            <view class="line-dot {{item.effClass}}"></view>
+            <text class="line-dot-value">{{item.efficiency}}%</text>
+          </view>
+        </view>
+        <!-- 底部标签 -->
+        <view class="line-labels">
+          <text class="line-label" wx:for="{{weekData}}" wx:key="date">{{item.dayLabel}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="no-data" wx:else>
+      <text>暂无学习记录</text>
+    </view>
+  </view>
+
+  <!-- 🔥 姿势质量评分 -->
+  <view class="chart-card card" wx:if="{{postureQuality}}">
+    <view class="chart-title">姿势质量</view>
+    <view class="posture-quality">
+      <view class="pq-main">
+        <text class="pq-score" style="color: {{postureQuality.stabilityColor}}">{{postureQuality.stability}}</text>
+        <text class="pq-unit">/100分</text>
+      </view>
+      <view class="pq-label" style="color: {{postureQuality.stabilityColor}}">{{postureQuality.stabilityLabel}}</view>
+      <view class="pq-details">
+        <text>平均头姿 {{postureQuality.avgHeadAngle}} · 最大偏离 {{postureQuality.maxDeviation}} · {{postureQuality.totalSamples}}样本</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 🔥 分心类型统计（根据学习者真实状态渲染颜色）-->
+  <view class="chart-card card">
+    <view class="chart-title">分心类型分布</view>
+    <view class="distraction-list">
+      <view class="distraction-item" wx:for="{{distractionStats}}" wx:key="type">
+        <view class="distraction-icon">{{item.icon}}</view>
+        <view class="distraction-info">
+          <text class="distraction-name">{{item.name}}</text>
+          <text class="distraction-detail" wx:if="{{item.detail}}">{{item.detail}}</text>
+          <view class="distraction-bar">
+            <view
+              class="distraction-fill"
+              style="width: {{item.percentage}}%; background: {{item.color}};"
+            ></view>
+          </view>
+        </view>
+        <view class="distraction-count-wrapper">
+          <text class="distraction-count" style="color: {{item.color}}">{{item.count}}次</text>
+          <text class="distraction-percent">{{item.percentage}}%</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 学习建议（每条来自真实数据）-->
+  <view class="advice-section card" wx:if="{{adviceList.length > 0}}">
+    <view class="section-title">学习建议</view>
+    <view class="advice-list">
+      <view class="advice-item" wx:for="{{adviceList}}" wx:key="type">
+        <view class="advice-icon">{{item.iconEmoji}}</view>
+        <view class="advice-content">
+          <text class="advice-item-title">{{item.title}}</text>
+          <text class="advice-item-text">{{item.content}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 学习方法推荐（从真实姿势+效率数据匹配）-->
+  <view class="methods-section card" wx:if="{{studyMethods.length > 0}}">
+    <view class="section-title">🎯 学习方法推荐</view>
+    <view class="method-list">
+      <view class="method-item" wx:for="{{studyMethods}}" wx:key="name">
+        <view class="method-header">
+          <text class="method-index">{{index + 1}}</text>
+          <text class="method-name">{{item.name}}</text>
+        </view>
+        <text class="method-reason" wx:if="{{item.reason}}">📊 {{item.reason}}</text>
+        <text class="method-steps" wx:if="{{item.howTo}}">📋 {{item.howTo}}</text>
+        <text class="method-suitable" wx:else>{{item.description || item.suitable}}</text>
+      </view>
+    </view>
+  </view>
+</view>

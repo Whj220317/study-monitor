@@ -1,0 +1,214 @@
+<view class="container">
+  <!-- 时间设置 -->
+  <view class="settings-section">
+    <view class="section-title">时间设置</view>
+    <view class="setting-item">
+      <view class="setting-info">
+        <text class="setting-label">专注时长</text>
+        <text class="setting-desc">每次专注学习的时长</text>
+      </view>
+      <picker mode="selector" range="{{focusOptions}}" value="{{focusIndex}}" bindchange="onFocusChange">
+        <view class="setting-value">
+          <text>{{focusMinutes}}分钟</text>
+          <text class="arrow">></text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="setting-item">
+      <view class="setting-info">
+        <text class="setting-label">休息时长</text>
+        <text class="setting-desc">专注后的休息时间</text>
+      </view>
+      <picker mode="selector" range="{{breakOptions}}" value="{{breakIndex}}" bindchange="onBreakChange">
+        <view class="setting-value">
+          <text>{{breakMinutes}}分钟</text>
+          <text class="arrow">></text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 检测灵敏度 -->
+  <view class="settings-section">
+    <view class="section-title">检测灵敏度</view>
+    <view class="setting-item">
+      <view class="setting-info">
+        <text class="setting-label">转头检测</text>
+        <text class="setting-desc">左右转头超过此角度视为分心</text>
+      </view>
+      <view class="slider-wrapper">
+        <slider
+          min="10"
+          max="45"
+          step="5"
+          value="{{yawThreshold}}"
+          activeColor="#4A90D9"
+          bindchanging="onYawChange"
+          bindchange="onYawChange"
+        />
+        <text class="slider-value">{{yawThreshold}}°</text>
+      </view>
+    </view>
+
+    <view class="setting-item">
+      <view class="setting-info">
+        <text class="setting-label">低头检测</text>
+        <text class="setting-desc">低头超过此角度视为分心</text>
+      </view>
+      <view class="slider-wrapper">
+        <slider
+          min="10"
+          max="40"
+          step="5"
+          value="{{pitchThreshold}}"
+          activeColor="#4A90D9"
+          bindchanging="onPitchChange"
+          bindchange="onPitchChange"
+        />
+        <text class="slider-value">{{pitchThreshold}}°</text>
+      </view>
+    </view>
+
+    <view class="setting-item">
+      <view class="setting-info">
+        <text class="setting-label">离开超时</text>
+        <text class="setting-desc">检测不到人脸的超时时间</text>
+      </view>
+      <picker mode="selector" range="{{timeoutOptions}}" value="{{timeoutIndex}}" bindchange="onTimeoutChange">
+        <view class="setting-value">
+          <text>{{faceLostTimeout}}秒</text>
+          <text class="arrow">></text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 提醒设置 -->
+  <view class="settings-section">
+    <view class="section-title">提醒设置</view>
+    <view class="setting-item">
+      <view class="setting-info">
+        <text class="setting-label">震动提醒</text>
+        <text class="setting-desc">分心时震动提醒</text>
+      </view>
+      <switch
+        checked="{{vibrationEnabled}}"
+        color="#4A90D9"
+        bindchange="onVibrationChange"
+      />
+    </view>
+
+    <view class="setting-item">
+      <view class="setting-info">
+        <text class="setting-label">声音提醒</text>
+        <text class="setting-desc">分心时播放提示音</text>
+      </view>
+      <switch
+        checked="{{soundEnabled}}"
+        color="#4A90D9"
+        bindchange="onSoundChange"
+      />
+    </view>
+  </view>
+
+  <!-- AI 智能分析 -->
+  <view class="settings-section">
+    <view class="section-title">AI 智能分析</view>
+    <view class="setting-item">
+      <view class="setting-info">
+        <text class="setting-label">启用 AI 分析</text>
+        <text class="setting-desc">使用 AI 分析学习行为并提供建议</text>
+      </view>
+      <switch
+        checked="{{aiEnabled}}"
+        color="#4A90D9"
+        bindchange="onAiEnabledChange"
+      />
+    </view>
+
+    <view class="setting-item" bindtap="adjustStrategy">
+      <view class="setting-info">
+        <text class="setting-label">智能策略调整</text>
+        <text class="setting-desc">AI 根据学习表现自动优化检测参数</text>
+      </view>
+      <view class="setting-value">
+        <text wx:if="{{aiAnalyzing}}">分析中...</text>
+        <text wx:else>立即调整</text>
+        <text class="arrow">></text>
+      </view>
+    </view>
+
+    <view class="setting-item" bindtap="showProfile">
+      <view class="setting-info">
+        <text class="setting-label">查看用户画像</text>
+        <text class="setting-desc">AI 学习到的你的学习模式</text>
+      </view>
+      <text class="arrow">></text>
+    </view>
+
+    <view class="setting-item" bindtap="showInsights">
+      <view class="setting-info">
+        <text class="setting-label">AI 洞察记录</text>
+        <text class="setting-desc">AI 发现的学习规律和建议</text>
+      </view>
+      <text class="arrow">></text>
+    </view>
+  </view>
+
+  <!-- 数据管理 -->
+  <view class="settings-section">
+    <view class="section-title">数据管理</view>
+
+    <view class="setting-item" bindtap="seedData">
+      <view class="setting-info">
+        <text class="setting-label">生成测试数据</text>
+        <text class="setting-desc">生成最近一周的模拟学习数据，用于查看图表</text>
+      </view>
+      <text class="arrow">></text>
+    </view>
+
+    <view class="setting-item" bindtap="verifyData">
+      <view class="setting-info">
+        <text class="setting-label">验证存储数据</text>
+        <text class="setting-desc">检查本地存储中的学习记录是否完整</text>
+      </view>
+      <text class="arrow">></text>
+    </view>
+
+    <view class="setting-item" bindtap="exportData">
+      <view class="setting-info">
+        <text class="setting-label">导出数据</text>
+        <text class="setting-desc">导出学习记录到剪贴板</text>
+      </view>
+      <text class="arrow">></text>
+    </view>
+
+    <view class="setting-item" bindtap="clearData">
+      <view class="setting-info">
+        <text class="setting-label danger">清除所有数据</text>
+        <text class="setting-desc">删除所有学习记录和计划</text>
+      </view>
+      <text class="arrow">></text>
+    </view>
+  </view>
+
+  <!-- 关于 -->
+  <view class="settings-section">
+    <view class="section-title">关于</view>
+    <view class="setting-item">
+      <view class="setting-info">
+        <text class="setting-label">版本</text>
+      </view>
+      <text class="setting-value-text">1.0.0</text>
+    </view>
+
+    <view class="setting-item" bindtap="showPrivacy">
+      <view class="setting-info">
+        <text class="setting-label">隐私说明</text>
+        <text class="setting-desc">了解数据如何被使用</text>
+      </view>
+      <text class="arrow">></text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,119 @@
+<view class="container">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="header-title">
+      <text>我的学习计划</text>
+      <text class="header-count">共{{plans.length}}个</text>
+    </view>
+    <button class="btn-add" bindtap="showAddForm">+ 新建计划</button>
+  </view>
+
+  <!-- 计划列表 -->
+  <view class="plan-list">
+    <view
+      class="plan-card {{item.status === 'completed' ? 'completed' : ''}}"
+      wx:for="{{plans}}"
+      wx:key="id"
+    >
+      <view class="plan-header">
+        <view class="plan-title-row">
+          <text class="plan-title">{{item.title}}</text>
+          <view class="plan-status {{item.status}}">
+            <text>{{item.statusText}}</text>
+          </view>
+        </view>
+        <text class="plan-duration">目标：{{item.targetText}}</text>
+      </view>
+
+      <!-- 进度条 -->
+      <view class="plan-progress">
+        <view class="progress-bar">
+          <view class="progress-fill" style="width: {{item.progress}}%"></view>
+        </view>
+        <text class="progress-text">{{item.progressText}}</text>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view class="plan-actions">
+        <button
+          class="btn-action"
+          bindtap="startPlan"
+          data-plan="{{item}}"
+          wx:if="{{item.status !== 'completed'}}"
+        >
+          开始学习
+        </button>
+        <button
+          class="btn-action btn-edit"
+          bindtap="editPlan"
+          data-plan="{{item}}"
+        >
+          编辑
+        </button>
+        <button
+          class="btn-action btn-delete"
+          bindtap="deletePlan"
+          data-id="{{item.id}}"
+        >
+          删除
+        </button>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{plans.length === 0}}">
+      <text class="empty-icon">📚</text>
+      <text class="empty-text">还没有学习计划</text>
+      <text class="empty-hint">点击上方"新建计划"开始创建</text>
+    </view>
+  </view>
+
+  <!-- 添加/编辑弹窗 -->
+  <view class="modal-mask" wx:if="{{showForm}}" bindtap="hideForm"></view>
+  <view class="modal {{showForm ? 'show' : ''}}">
+    <view class="modal-header">
+      <text>{{isEditing ? '编辑计划' : '新建计划'}}</text>
+      <text bindtap="hideForm" class="modal-close">×</text>
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">计划名称</text>
+      <input
+        class="form-input"
+        placeholder="例如：高等数学第三章"
+        value="{{formTitle}}"
+        bindinput="onTitleInput"
+      />
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">目标时长（分钟）</text>
+      <input
+        class="form-input"
+        type="number"
+        placeholder="25"
+        value="{{formDuration}}"
+        bindinput="onDurationInput"
+      />
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">快捷设置</text>
+      <view class="quick-options">
+        <view
+          class="quick-item {{formDuration == item.value ? 'active' : ''}}"
+          wx:for="{{quickDurations}}"
+          wx:key="value"
+          bindtap="setQuickDuration"
+          data-value="{{item.value}}"
+        >
+          <text>{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+
+    <button class="btn-submit" bindtap="submitPlan">
+      {{isEditing ? '保存修改' : '创建计划'}}
+    </button>
+  </view>
+</view>

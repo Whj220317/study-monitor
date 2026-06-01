@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "学习监督",
+  "usingComponents": {
+    "timer": "../../components/timer/timer",
+    "attention-status": "../../components/attention-status/attention-status"
+  }
+}
